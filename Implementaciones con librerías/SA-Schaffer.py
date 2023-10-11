@@ -18,27 +18,31 @@ class SchafferProblem(Annealer):
         super().__init__(initial_state, load_state)
         
     def move(self):
-        # Modificar aleatoriamente las variables x y y
-        self.state = [self.state[0] + random.uniform(-1, 1), self.state[1] + random.uniform(-1, 1)]
+        # Modificar aleatoriamente las variables x y y (Primera forma)
+        #   self.state = [self.state[0] + random.uniform(-1, 1), self.state[1] + random.uniform(-1, 1)]
+        
+        # Modificar aleatoriamente las variables x y y (Segunda forma, la copie del repositorio)
+        self.update()
     
-    # def epson_vector(self, guess, mu = 0, sigma = 1):
-    #     epson = np.zeros((1, guess.shape[1]-1))
-    #     for j in range(0, guess.shape[1]-1):
-    #         epson[0,j] = float(np.random.normal(mu, sigma, 1))
-    #     return epson
+    def epson_vector(self, guess, mu = 0, sigma = 1):
+        epson = np.zeros(2)
+        for j in range(0, 2):
+            random_value = np.random.normal(mu, sigma, 1)[0]
+            epson[j] = float(random_value)
+        return epson
     
-    # def move(self):
-    #     state = np.array((self.state))
-    #     updated_solution = np.copy(state)
-    #     epson = self.epson_vector(guess=state)
-    #     for j in range(0, state.shape[1] - 1):
-    #         if (state[0,j] + epson[0,j] > 100):
-    #             updated_solution[0,j] = random.uniform(-100, 100)
-    #         elif (state[0,j] + epson[0,j] < -100):
-    #             updated_solution[0,j] = random.uniform(-100, 100)
-    #         else:
-    #             updated_solution[0,j] = state[0,j] + epson[0,j] 
-    #     self.state = updated_solution
+    def update(self):
+        state = np.array(self.state)
+        updated_solution = np.copy(state)
+        epson = self.epson_vector(guess=state)
+        for j in range(0, 2):
+            if (state[j] + epson[j] > 100):
+                updated_solution[j] = random.uniform(-100, 100)
+            elif (state[j] + epson[j] < -100):
+                updated_solution[j] = random.uniform(-100, 100)
+            else:
+                updated_solution[j] = state[j] + epson[j] 
+        self.state = updated_solution
 
     def energy(self):
         # Calcular el valor de la función Schaffer para el estado actual
