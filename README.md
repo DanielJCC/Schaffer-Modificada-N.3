@@ -1,6 +1,6 @@
 # Enfriamiento Simulado (SA), Algoritmo Genético (GA) y Algoritmo de Enjambre (PSO) para Schaffer Modificada N.3
 En este repositorio están los algoritmos de Enfriamiento simulado, algoritmo genético y algoritmo de enjambre para resolver hallar el mínimo o realizar la minimización de la función de Schaffer modificada N.3.
-![Función de Schaffer modificada N.3](image-1.png)
+![Función de Schaffer modificada N.3](image-1.png)\
 En el repositorio hay dos carpetas:
 * Implementaciones con librerías
 * Implementaciones de prueba
