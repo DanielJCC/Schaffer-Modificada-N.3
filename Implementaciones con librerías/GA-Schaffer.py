@@ -35,7 +35,7 @@ model = ga.geneticalgorithm2(schaffer, dimension = 2,
 # Ejecutar el algoritmo genético
 best_solutions = []
 table = []
-for i in range(20):
+for i in range(30):
     start_time = timeit.default_timer() 
     result = model.run(disable_printing=True,no_plot=True)
     stop_time = timeit.default_timer()

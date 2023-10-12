@@ -54,7 +54,7 @@ best_solutions = []
 best_times = []
 best_iterations = []
 table = []
-for i in range(20):
+for i in range(30):
     # Crear una instancia del problema de Schaffer
     best_iteration = 0
     initial_state = [random.uniform(-100, 100), random.uniform(-100, 100)]

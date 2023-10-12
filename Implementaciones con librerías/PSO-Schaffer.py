@@ -21,7 +21,7 @@ options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
 
 best_solutions = []
 table = []
-for i in range(20):
+for i in range(30):
     optimizer = ps.single.GlobalBestPSO(n_particles=10, dimensions=2, options=options, bounds=bounds)
     print("=========================== Iteración",i+1,"===========================")
     start_time = timeit.default_timer()
