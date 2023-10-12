@@ -7,6 +7,7 @@ import numpy as np
 import statistics
 from pyswarms.utils.plotters.formatters import Mesher, Designer
 from tabulate import tabulate
+import pandas as pd
 def schaffer(x):
     x1, x2 = x[:, 0], x[:, 1]
     return 0.5 + ((np.sin(np.cos(abs(x1**2-x2**2)))**2 - 0.5) / (1 + 0.001*(x1**2 + x2**2))**2)
@@ -20,6 +21,8 @@ options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
 # Call instance of PSO
 
 best_solutions = []
+best_times = []
+best_iterations = []
 table = []
 for i in range(30):
     optimizer = ps.single.GlobalBestPSO(n_particles=10, dimensions=2, options=options, bounds=bounds)
@@ -36,6 +39,8 @@ for i in range(30):
     # print(f"Improvement over greedy heuristic: {improvement: .2f}%")
     table.append([i+1,best_pos[0],best_pos[1],best_cost,optimizer.cost_history.index(best_cost),improvement,end_time])
     best_solutions.append(best_cost)
+    best_iterations.append(optimizer.cost_history.index(best_cost))
+    best_times.append(end_time)
     if i == 0:
         plot_cost_history(optimizer.cost_history)
         plt.show()
@@ -45,6 +50,11 @@ print("Costo total promedio =", statistics.mean(best_solutions))
 varianza = statistics.variance(best_solutions)
 print("Varianza: ", varianza)
 print("Mejor solución encontrada: %f" % (min(best_solutions)))
+
+df = pd.DataFrame(best_solutions, columns =['Fitness'], dtype = float)
+df['Time'] = best_times
+df['Iteracion'] = best_iterations
+df.to_excel('resultado-PSO.xlsx')
 
 # # Plot the sphere function's mesh for better plots
 # m = Mesher(func=schaffer,

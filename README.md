@@ -23,7 +23,7 @@ En esta carpeta hay 3 archivos, todos pertenecen a pruebas hechas con enfriamien
 * **simanneal**: https://github.com/perrygeo/simanneal
 
 # Autores
-Gian Astori\
-Daniel Cogollos\
-Ricardo De la Cruz\
-Juan Díaz\
+Gian Marco Astori Payares\
+Daniel José Cogollos Cerón\
+Ricardo Andrés De la Cruz Orozco\
+Juan Luis Díaz Guerrero

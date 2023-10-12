@@ -4,6 +4,7 @@ import timeit
 import matplotlib.pyplot as plt
 import statistics
 from tabulate import tabulate
+import pandas as pd
 
 # Definir la función Schaffer
 def schaffer(X):
@@ -34,6 +35,8 @@ model = ga.geneticalgorithm2(schaffer, dimension = 2,
 
 # Ejecutar el algoritmo genético
 best_solutions = []
+best_times = []
+best_iterations = []
 table = []
 for i in range(30):
     start_time = timeit.default_timer() 
@@ -48,6 +51,8 @@ for i in range(30):
     # print(f"Improvement over greedy heuristic: {improvement: .2f}%")
     table.append([i+1,result.variable[0],result.variable[1],result.score,model.report.index(result.score),improvement,end_time])
     best_solutions.append(result.score)
+    best_times.append(end_time)
+    best_iterations.append(model.report.index(result.score))
     if i == 0:
         plt.plot([i for i in range(len(model.report))], model.report)
         plt.ylabel("Fitness")
@@ -60,3 +65,10 @@ print("Costo total promedio =", statistics.mean(best_solutions))
 varianza = statistics.variance(best_solutions)
 print("Varianza: ", varianza)
 print("Mejor solución encontrada: %f" % (min(best_solutions)))
+print("Tiempo promedio de ejecución: %f" % (statistics.mean(best_times)))
+print("Promedio de iteraciones al encontrar la mejor solución: %f" % (statistics.mean(best_iterations)))
+
+df = pd.DataFrame(best_solutions, columns =['Fitness'], dtype = float)
+df['Time'] = best_times
+df['Iteracion'] = best_iterations
+df.to_excel('resultado-GA.xlsx')
