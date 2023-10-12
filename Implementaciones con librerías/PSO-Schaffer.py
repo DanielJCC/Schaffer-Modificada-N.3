@@ -18,11 +18,11 @@ bounds = (lower_bound, upper_bound)
 # Set-up hyperparameters
 options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
 # Call instance of PSO
-optimizer = ps.single.GlobalBestPSO(n_particles=10, dimensions=2, options=options, bounds=bounds)
 
 best_solutions = []
 table = []
 for i in range(20):
+    optimizer = ps.single.GlobalBestPSO(n_particles=10, dimensions=2, options=options, bounds=bounds)
     print("=========================== Iteración",i+1,"===========================")
     start_time = timeit.default_timer()
     best_cost, best_pos = optimizer.optimize(schaffer, iters=100)

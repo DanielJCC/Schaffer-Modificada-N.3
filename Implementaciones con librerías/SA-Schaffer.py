@@ -51,6 +51,8 @@ class SchafferProblem(Annealer):
         return schaffer(self.state[0], self.state[1])
 
 best_solutions = []
+best_times = []
+best_iterations = []
 table = []
 for i in range(20):
     # Crear una instancia del problema de Schaffer
@@ -69,6 +71,8 @@ for i in range(20):
     best_iteration = schaffer_problem.fitness_list.index(min_energy)
     improvement = 100 * (schaffer_problem.fitness_list[1] - min_energy) / (schaffer_problem.fitness_list[1])
     table.append([i+1,best_solution[0],best_solution[1],min_energy,best_iteration,improvement,end_time])
+    best_iterations.append(best_iteration)
+    best_times.append(end_time)
     # print("============================= Iteración",i+1,"=============================")
     # print("Solución óptima encontrada:")
     # print("x:", best_solution[0])
@@ -89,3 +93,5 @@ print("Costo total promedio =", statistics.mean(best_solutions))
 varianza = statistics.variance(best_solutions)
 print("Varianza: ", varianza)
 print("Mejor solución encontrada: %f" % (min(best_solutions)))
+print("Tiempo promedio de ejecución: %f" % (statistics.mean(best_times)))
+print("Promedio de iteraciones al encontrar la mejor solución: %f" % (statistics.mean(best_iterations)))
