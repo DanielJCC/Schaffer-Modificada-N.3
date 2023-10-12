@@ -6,6 +6,7 @@ import timeit
 import numpy as np
 import statistics
 from pyswarms.utils.plotters.formatters import Mesher, Designer
+from tabulate import tabulate
 def schaffer(x):
     x1, x2 = x[:, 0], x[:, 1]
     return 0.5 + ((np.sin(np.cos(abs(x1**2-x2**2)))**2 - 0.5) / (1 + 0.001*(x1**2 + x2**2))**2)
@@ -20,22 +21,25 @@ options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
 optimizer = ps.single.GlobalBestPSO(n_particles=10, dimensions=2, options=options, bounds=bounds)
 
 best_solutions = []
+table = []
 for i in range(20):
     print("=========================== Iteración",i+1,"===========================")
     start_time = timeit.default_timer()
     best_cost, best_pos = optimizer.optimize(schaffer, iters=100)
     stop_time = timeit.default_timer()
     end_time = stop_time - start_time
-    print("running_time: ",format(end_time, '.8f'),"seg")
-    print("Best solution:",best_pos)
-    print("Fitness:",best_cost)
-    print("Solución encontrada en la iteración:", optimizer.cost_history.index(best_cost))
+    # print("running_time: ",format(end_time, '.8f'),"seg")
+    # print("Best solution:",best_pos)
+    # print("Fitness:",best_cost)
+    # print("Solución encontrada en la iteración:", optimizer.cost_history.index(best_cost))
     improvement = 100 * (optimizer.cost_history[0] - best_cost) / (optimizer.cost_history[0])
-    print(f"Improvement over greedy heuristic: {improvement: .2f}%")
+    # print(f"Improvement over greedy heuristic: {improvement: .2f}%")
+    table.append([i+1,best_pos[0],best_pos[1],best_cost,optimizer.cost_history.index(best_cost),improvement,end_time])
     best_solutions.append(best_cost)
     if i == 0:
         plot_cost_history(optimizer.cost_history)
         plt.show()
+print(tabulate(table, headers=["Iteration", "x1","x2","Best fitness","Best iteration","Improvement","Running time"],tablefmt="outline"))
 print("===============================================")
 print("Costo total promedio =", statistics.mean(best_solutions))
 varianza = statistics.variance(best_solutions)

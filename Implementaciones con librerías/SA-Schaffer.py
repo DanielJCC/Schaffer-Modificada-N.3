@@ -6,6 +6,7 @@ import random
 import matplotlib.pyplot as plt
 import statistics
 import timeit
+from tabulate import tabulate
 
 # Definir la función Schaffer
 def schaffer(x, y):
@@ -19,10 +20,10 @@ class SchafferProblem(Annealer):
         
     def move(self):
         # Modificar aleatoriamente las variables x y y (Primera forma)
-        #   self.state = [self.state[0] + random.uniform(-1, 1), self.state[1] + random.uniform(-1, 1)]
-        
+        self.state = [self.state[0] + random.uniform(-1, 1), self.state[1] + random.uniform(-1, 1)]
+
         # Modificar aleatoriamente las variables x y y (Segunda forma, la copie del repositorio)
-        self.update()
+        #self.update()
     
     def epson_vector(self, guess, mu = 0, sigma = 1):
         epson = np.zeros(2)
@@ -50,6 +51,7 @@ class SchafferProblem(Annealer):
         return schaffer(self.state[0], self.state[1])
 
 best_solutions = []
+table = []
 for i in range(20):
     # Crear una instancia del problema de Schaffer
     best_iteration = 0
@@ -65,13 +67,15 @@ for i in range(20):
     stop_time = timeit.default_timer()
     end_time = stop_time - start_time
     best_iteration = schaffer_problem.fitness_list.index(min_energy)
-    print("============================= Iteración",i+1,"=============================")
-    print("Solución óptima encontrada:")
-    print("x:", best_solution[0])
-    print("y:", best_solution[1])
-    print("Valor de la función Schaffer en la solución óptima:", min_energy)
-    print('Encontró la solución en la iteración: %d' % best_iteration)
-    print("running_time: ",format(end_time, '.8f'),"seg")
+    improvement = 100 * (schaffer_problem.fitness_list[1] - min_energy) / (schaffer_problem.fitness_list[1])
+    table.append([i+1,best_solution[0],best_solution[1],min_energy,best_iteration,improvement,end_time])
+    # print("============================= Iteración",i+1,"=============================")
+    # print("Solución óptima encontrada:")
+    # print("x:", best_solution[0])
+    # print("y:", best_solution[1])
+    # print("Valor de la función Schaffer en la solución óptima:", min_energy)
+    # print('Encontró la solución en la iteración: %d' % best_iteration)
+    # print("running_time: ",format(end_time, '.8f'),"seg")
     best_solutions.append(min_energy)
 
     if i == 0: 
@@ -79,7 +83,7 @@ for i in range(20):
         plt.ylabel("Fitness")
         plt.xlabel("Iteration")
         plt.show()
-
+print(tabulate(table, headers=["Iteration", "x1","x2","Best fitness","Best iteration","Improvement","Running time"],tablefmt="outline"))
 print("===============================================")
 print("Costo total promedio =", statistics.mean(best_solutions))
 varianza = statistics.variance(best_solutions)
