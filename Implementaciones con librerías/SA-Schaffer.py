@@ -6,6 +6,7 @@ import random
 import matplotlib.pyplot as plt
 import statistics
 import timeit
+import pandas as pd
 from tabulate import tabulate
 
 # Definir la función Schaffer
@@ -95,3 +96,8 @@ print("Varianza: ", varianza)
 print("Mejor solución encontrada: %f" % (min(best_solutions)))
 print("Tiempo promedio de ejecución: %f" % (statistics.mean(best_times)))
 print("Promedio de iteraciones al encontrar la mejor solución: %f" % (statistics.mean(best_iterations)))
+
+df = pd.DataFrame(best_solutions, columns =['Fitness'], dtype = float)
+df['Time'] = best_times
+df['Iteracion'] = best_iterations
+df.to_excel('resultado-SA.xlsx')
