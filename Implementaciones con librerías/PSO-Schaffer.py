@@ -12,9 +12,9 @@ def schaffer(x):
     x1, x2 = x[:, 0], x[:, 1]
     return 0.5 + ((np.sin(np.cos(abs(x1**2-x2**2)))**2 - 0.5) / (1 + 0.001*(x1**2 + x2**2))**2)
 
-# Definir límites inferiores y superiores para las variables x y y
-lower_bound = np.array([-100, -100])  # límites inferiores para x y y
-upper_bound = np.array([100, 100])    # límites superiores para x y y
+# Definir límites inferiores y superiores para las variables x1 y x2
+lower_bound = np.array([-100, -100])  # límites inferiores para x1 y x2
+upper_bound = np.array([100, 100])    # límites superiores para x1 y x2
 bounds = (lower_bound, upper_bound)
 # Set-up hyperparameters
 options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
@@ -55,18 +55,3 @@ df = pd.DataFrame(best_solutions, columns =['Fitness'], dtype = float)
 df['Time'] = best_times
 df['Iteracion'] = best_iterations
 df.to_excel('resultado-PSO.xlsx')
-
-# # Plot the sphere function's mesh for better plots
-# m = Mesher(func=schaffer,
-#            limits=[(0,2), (0,2)])
-# # Adjust figure limits
-# d = Designer(limits=[(-100,100), (-100,100), (-0.1,1)],
-#              label=['x-axis', 'y-axis', 'z-axis'])
-
-# animation = plot_contour(pos_history=optimizer.pos_history, mesher=m, designer=d, mark=(0,0))
-
-# pos_history_3d = m.compute_history_3d(optimizer.pos_history) # preprocessing
-# animation3d = plot_surface(pos_history=pos_history_3d,
-#                            mesher=m, designer=d,
-#                            mark=(0,0,0))    
-# plt.show()

@@ -1,4 +1,3 @@
-## SI SIRVE ESTA Y DA IGU
 from simanneal import Annealer
 import math
 import numpy as np
@@ -21,10 +20,10 @@ class SchafferProblem(Annealer):
         
     def move(self):
         # Modificar aleatoriamente las variables x y y (Primera forma)
-        self.state = [self.state[0] + random.uniform(-1, 1), self.state[1] + random.uniform(-1, 1)]
+        #self.state = [self.state[0] + random.uniform(-1, 1), self.state[1] + random.uniform(-1, 1)]
 
-        # Modificar aleatoriamente las variables x y y (Segunda forma, la copie del repositorio)
-        #self.update()
+        # Modificar aleatoriamente las variables x y y (Segunda forma)
+        self.update()
     
     def epson_vector(self, guess, mu = 0, sigma = 1):
         epson = np.zeros(2)
@@ -62,7 +61,7 @@ for i in range(30):
     schaffer_problem = SchafferProblem(initial_state)
 
     # Configurar los parámetros del algoritmo de Simulated Annealing
-    schaffer_problem.set_schedule({'tmax': 40, 'tmin': 1e-11, 'steps': 20000, 'updates': 0.00095})
+    schaffer_problem.set_schedule({'tmax': 1000, 'tmin': 0.001, 'steps': 100000, 'updates': 0.5})
 
     # Ejecutar el algoritmo de Simulated Annealing
     start_time = timeit.default_timer() 
